@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    (Login)
+{% endblock title %}
+
+{% block content %}
+<div class="column">
+    <h3 class="text-info" style="margin-left: 40%; margin-top: 25px;">
+        Glad to see you!
+    </h3>
+    <form class="form-group mt-3 " style="margin-left: 32%; width: 400px;" action="/account/login" method="post" onsubmit="return true">
+        {% csrf_token %}
+        <span class="error">{{ report }}</span>
+        <p>
+            <label class="text-info" for="login_field">Login</label>
+            <input id="login_field" class="w-100" name="login_field" type="text" placeholder="Введите логин">
+        </p>
+        <p>
+            <label class="text-info" for="password_field">Password</label>
+            <input id="password_field" class="w-100" name="password_field" type="password" placeholder="Введите пароль">
+        </p>
+
+        <input id="log_btn" type="submit" value="Log in" class="btn btn-outline-success btn-sm">
+        <input type="reset" value="Clear" class="btn btn-outline-secondary btn-sm">
+
+    </form>
+
+    <script src="{% static 'js/log.js' %}"></script>
+
+
+</div>
+
+{% endblock content %}

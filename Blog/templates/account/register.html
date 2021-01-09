@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    (Registration)
+{% endblock title %}
+
+{% block content %}
+<div class="register-block">
+    <h3 class="mt-5 text-info" style="margin-left: 35%; margin-top: 25px;">Зарегистрируйтесь</h3>
+    <form class="form-group mt-5" style="margin-left: 32%; width: 400px;" action="/account/register" method="post" onsubmit="return false">
+        {% csrf_token %}
+        <div class="error">
+            {{ report }}
+        </div>
+        <p >
+            <label class="text-info" for="login_field">Login</label>
+            <input id="login_field" class="w-75" name="login_field" type="text" placeholder="Enter login">
+            <img id="login_icon" src="{% static 'img/question.png' %}" alt="img-result">
+            <div id="login_error" class="error"></div>
+        </p>
+        <p>
+            <label class="text-info" for="email_field">Email</label>
+            <input id="email_field" class="w-75" name="email_field" type="email" placeholder="Enter email">
+            <img id="email_icon" src="{% static 'img/question.png' %}" alt="img-result">
+            <div id="email_error" class="error"></div>
+        </p>
+        <p>
+            <label class="text-info" for="password_field">Password</label>
+            <input id="password_field" class="w-50" name="password_field" type="password" placeholder="Enter password">
+            <img id="password_icon" src="{% static 'img/question.png' %}" alt="img-result">
+            <div id="password_error" class="error"></div>
+        </p>
+        <p>
+            <label class="text-info" for="password_confirmation_field">Password Confirmation</label>
+            <input id="password_confirmation_field" name="password_confirmation_field" type="password"
+                   placeholder="Re-enter password">
+            <img id="password_confirm_icon" src="{% static 'img/question.png' %}" alt="img-result">
+            <div id="password_confirm_error" class="error"></div>
+        </p>
+
+        <input id="submit" type="submit" value="Send" class="btn btn-outline-success btn-sm">
+        <input type="reset" value="Clear" class="btn btn-outline-secondary btn-sm">
+    </form>
+
+    <script src="{% static 'js/reg.js' %}"></script>
+
+</div>
+
+{% endblock content %}
