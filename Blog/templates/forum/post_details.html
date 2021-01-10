@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    (post_details)
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+      <h3 class="pl-4 pt-3 pb-4 mb-4 font-italic border-bottom bg-dark text-white">
+
+      </h3>
+
+      <article class="blog-post">
+        <h2 class="blog-post-title">{{post.title}}</h2>
+        <p class="blog-post-meta">{{post.timestamp}} by <a href="#">{{post.author}}</a></p>
+        <p>{{post.content}}</p>
+      </article><!-- /.blog-post -->
+
+    </div>
+
+    <div class="col-md-4 bg-dark">
+        <img class="w-100 h-auto mt-5" src="/media/{{post.image}}" alt="image">
+    </div>
+
+  </div><!-- /.row -->
+{% endblock content %}
