@@ -18,6 +18,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     draft = models.BooleanField(default=False)  # черновик публикации
+    likes = models.ManyToManyField(User, related_name='like_list', null=True, blank=True)
 
     def __str__(self):
         return f'{self.id}. {self.title}'

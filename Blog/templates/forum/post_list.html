@@ -5,47 +5,65 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="p-4 p-md-5 mb-4 text-white text-center rounded bg-dark">
+<div class="p-4 p-md-5 mb-4 text-white text-center rounded bg-dark">
+  <h3 class="display-6 font-regular" >Все посты</h3>
+</div>
+<div class="row mb-2">
+  {% for post in page_obj %}
 
-      <h3 class="display-6 font-regular" >Все посты</h3>
+  <div class="col-md-6">
+    {% if post.draft %}
 
+    <div class="row g-0 border border-danger rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <strong class="d-inline-block mb-2 text-danger">Draft</strong>
+        <h3 class="mb-0">{{post.title}}</h3>
+        <div class="mb-1 text-muted">{{post.timestamp}}</div>
+        <p class="card-text mb-auto">{{post.content | truncatechars:50}}</p>
+        <a href="{% url 'post_details' post.id %}" class="stretched-link">Continue editing...</a>
+      </div>
+      <div class="col-auto d-none d-lg-block">
+        <img class="bd-placeholder-img" width="200" height="250" src="/media/{{post.image}}" alt="image">
+      </div>
+    </div>
+
+    {% else %}
+
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <h3 class="mb-0">{{post.title}}</h3>
+        <div class="mb-1 text-muted">{{post.timestamp}}</div>
+        <p class="card-text mb-auto">{{post.content | truncatechars:100}}</p>
+        <a href="{% url 'post_details' post.id %}" class="stretched-link">Continue reading...</a>
+      </div>
+      <div class="col-auto d-none d-lg-block">
+        <img class="bd-placeholder-img" width="200" height="250" src="/media/{{post.image}}" alt="image">
+      </div>
+    </div>
+
+    {% endif %}
   </div>
+  {% endfor %}
 
-  <div class="row mb-2">
-    {% for post in posts %}
-    <div class="col-md-6">
-      {% if post.draft %}
-      <div class="row g-0 border border-danger rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
+  <div class="row w-100 justify-content-center">
+    {% if page_obj.has_previous %}
+      <a href="?page=1" class="btn btn-secondary col-1 m-1">1</a>
+      {% if page_obj.previous_page_number != 1 %}
 
+        <a href="?page={{page_obj.previous_page_number}}" class="btn btn-secondary col-1 m-1"> <<< </a>
+      {% endif %}
+    {% endif %}
 
-            <strong class="d-inline-block mb-2 text-danger">Draft</strong>
-
-
-          <h3 class="mb-0">{{post.title}}</h3>
-          <div class="mb-1 text-muted">{{post.timestamp}}</div>
-          <p class="card-text mb-auto">{{post.content | truncatechars:100}}</p>
-          <a href="{% url 'post_details' post.id %}" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-          <img class="bd-placeholder-img" width="200" height="250" src="/media/{{post.image}}" alt="image">
-        </div>
-      </div>
-      {% else %}
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <h3 class="mb-0">{{post.title}}</h3>
-          <div class="mb-1 text-muted">{{post.timestamp}}</div>
-          <p class="card-text mb-auto">{{post.content | truncatechars:100}}</p>
-          <a href="{% url 'post_details' post.id %}" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-            <img class="bd-placeholder-img" width="200" height="250" src="/media/{{post.image}}" alt="image">
-        </div>
-      </div>
+    {% if page_obj.has_next %}
+      {% if page_obj.next.page_number != page_obj.paginator.num_pages %}
+        <a href="?page={{page_obj.next_page_number}}" class="btn btn-secondary col-1 m-1"> >>> </a>
 
       {% endif %}
-    </div>
-    {% endfor %}
+      <a href="?page={{page_obj.paginator.num_pages}}" class="btn btn-secondary col-1 m-1"> {{page_obj.paginator.num_pages}} </a>
+    {% endif %}
+
   </div>
+
+
+</div>
 {% endblock content %}

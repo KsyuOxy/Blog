@@ -9,9 +9,7 @@ $(document).ready(function () {
             success: function(result){
                 if (result.message_user === 'ok'){
                     $('.form-group').attr( 'onsubmit', 'return true');
-                    alert('Welcome!');
-                }else{
-                    alert('Error');
+
                 }
             }
         })

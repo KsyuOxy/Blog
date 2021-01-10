@@ -8,21 +8,83 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-      <h3 class="pl-4 pt-3 pb-4 mb-4 font-italic border-bottom bg-dark text-white">
-
-      </h3>
+      <h3 class="pl-4 pt-3 pb-4 mb-4 font-italic border-bottom bg-dark text-white"></h3>
 
       <article class="blog-post">
-        <h2 class="blog-post-title">{{post.title}}</h2>
-        <p class="blog-post-meta">{{post.timestamp}} by <a href="#">{{post.author}}</a></p>
+        <h2 class="blog-post-title">
+            {{post.title}}
+            {% if post.draft %}
+            <font class="pl-4 pr-4 text-white bg-danger ml-5 rounded"
+                  style="letter-spacing: 2px; font-size: 24px;">draft</font>
+            {% endif %}
+        </h2>
+        <p class="blog-post-meta">{{post.timestamp.date}}
+            {% if post.timestamp.date < post.updated.date %}
+                (edited {{post.updated.date}})
+            {% endif %}
+            by
+            <a href="#">{{post.author}}</a>
+        </p>
         <p>{{post.content}}</p>
       </article><!-- /.blog-post -->
+        <p class="text-success text-right mr-4" >
+            Нравится: <span id="likes_count">{{post.likes.count}}</span>
+            <button id="like_button" class="btn btn-sm p-1 btn-outline-success ml-2" >:)</button>
+        </p>
+
 
     </div>
 
     <div class="col-md-4 bg-dark">
         <img class="w-100 h-auto mt-5" src="/media/{{post.image}}" alt="image">
     </div>
-
   </div><!-- /.row -->
+
+<script>
+    $(document).ready( function () {
+
+    $('#like_button').click(function () {
+        console.log('likes work')
+
+        if ($('#like_button').text() === ':)'){
+
+
+            $.ajax({
+                url: '/forum/{{post.id}}/like',
+                method: 'GET',
+                data: {
+                    'like_action': 'add',
+                    'user': '{{user}}'
+                },
+                success: function (result) {
+                    if(result.status === 'ok'){
+                        console.log('like ok')
+                        $('#like_button').text(':) LIKED')
+                        $('#like_button').attr('class', 'btn btn-success btn-sm')
+                        $('#likes_count').text(+$('#likes_count').text() + 1)
+                    }
+                }
+            })
+
+        }else{
+            $.ajax({
+                url: '/forum/{{post.id}}/like',
+                method: 'GET',
+                data: {
+                    'like_action': 'remove',
+                    'user': '{{user}}'
+                },
+                success: function (result) {
+                    if(result.status === 'ok'){
+                        console.log('like ok')
+                        $('#like_button').text(':)')
+                        $('#like_button').attr('class', 'btn btn-outline-success btn-sm')
+                        $('#likes_count').text(+$('#likes_count').text() - 1)
+                    }
+                }
+            })
+        }
+    })
+})
+</script>
 {% endblock content %}
