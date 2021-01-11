@@ -29,7 +29,11 @@
       </article><!-- /.blog-post -->
         <p class="text-success text-right mr-4" >
             Нравится: <span id="likes_count">{{post.likes.count}}</span>
-            <button id="like_button" class="btn btn-sm p-1 btn-outline-success ml-2" >:)</button>
+            {% if liked %}
+                <button id="like_button" class="btn btn-sm p-1 ml-2 btn-success " >👍</button>
+            {% else %}
+                <button id="like_button" class="btn btn-sm p-1 ml-2 btn-outline-success " >:)</button>
+            {% endif %}
         </p>
 
 
@@ -59,7 +63,7 @@
                 success: function (result) {
                     if(result.status === 'ok'){
                         console.log('like ok')
-                        $('#like_button').text(':) LIKED')
+                        $('#like_button').text('👍')
                         $('#like_button').attr('class', 'btn btn-success btn-sm')
                         $('#likes_count').text(+$('#likes_count').text() + 1)
                     }

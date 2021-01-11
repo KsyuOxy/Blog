@@ -5,6 +5,11 @@
 {% endblock title %}
 
 {% block content %}
+<form class="form-group mb-2 mt-2 ml-1 row flex-nowrap justify-content-left " action="" method="get">
+      <label for="search"></label>
+      <input id="search" class="col-11 border-primary" name="search" type="text" placeholder="Введите текст для поиска">
+      <input type="submit" class="ml-3 btn btn-primary btn-sm" style="width: 65px;" value="Search">
+    </form>
 <div class="p-4 p-md-5 mb-4 text-white text-center rounded bg-dark">
   <h3 class="display-6 font-regular" >Все посты</h3>
 </div>
@@ -18,7 +23,7 @@
       <div class="col p-4 d-flex flex-column position-static">
         <strong class="d-inline-block mb-2 text-danger">Draft</strong>
         <h3 class="mb-0">{{post.title}}</h3>
-        <div class="mb-1 text-muted">{{post.timestamp}}</div>
+        <div class="mb-1 text-muted">{{post.timestamp.date}}</div>
         <p class="card-text mb-auto">{{post.content | truncatechars:50}}</p>
         <a href="{% url 'post_details' post.id %}" class="stretched-link">Continue editing...</a>
       </div>
@@ -32,7 +37,7 @@
     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
       <div class="col p-4 d-flex flex-column position-static">
         <h3 class="mb-0">{{post.title}}</h3>
-        <div class="mb-1 text-muted">{{post.timestamp}}</div>
+        <div class="mb-1 text-muted">{{post.timestamp.date}}</div>
         <p class="card-text mb-auto">{{post.content | truncatechars:100}}</p>
         <a href="{% url 'post_details' post.id %}" class="stretched-link">Continue reading...</a>
       </div>
@@ -47,19 +52,19 @@
 
   <div class="row w-100 justify-content-center">
     {% if page_obj.has_previous %}
-      <a href="?page=1" class="btn btn-secondary col-1 m-1">1</a>
+      <a href="?page=1&search={{search}}" class="btn btn-secondary col-1 m-1">1</a>
       {% if page_obj.previous_page_number != 1 %}
 
-        <a href="?page={{page_obj.previous_page_number}}" class="btn btn-secondary col-1 m-1"> <<< </a>
+        <a href="?page={{page_obj.previous_page_number}}&search={{search}}" class="btn btn-secondary col-1 m-1"> <<< </a>
       {% endif %}
     {% endif %}
 
     {% if page_obj.has_next %}
       {% if page_obj.next.page_number != page_obj.paginator.num_pages %}
-        <a href="?page={{page_obj.next_page_number}}" class="btn btn-secondary col-1 m-1"> >>> </a>
-
+        <a href="?page={{page_obj.next_page_number}}&search={{search}}" class="btn btn-secondary col-1 m-1"> >>> </a>
       {% endif %}
-      <a href="?page={{page_obj.paginator.num_pages}}" class="btn btn-secondary col-1 m-1"> {{page_obj.paginator.num_pages}} </a>
+      <a href="?page={{page_obj.paginator.num_pages}}&search={{search}}" class="btn btn-secondary col-1 m-1"> {{page_obj.paginator.num_pages}} </a>
+
     {% endif %}
 
   </div>

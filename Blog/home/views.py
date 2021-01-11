@@ -7,7 +7,7 @@ def index(request):  # отбирает последние два поста, и
     posts = []
     all_posts = Post.objects.all()
     for post in all_posts:
-        if not post.draft and len(posts) < 3:
+        if not post.draft and len(posts) < 2:
             posts.append(post)
-    data['posts'] = posts
+    data['posts'] = posts[::-1]
     return render(request, 'home/index.html', context=data)
